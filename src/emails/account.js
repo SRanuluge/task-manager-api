@@ -1,28 +1,51 @@
-const sgMail = require('@sendgrid/mail');
+const { CourierClient } = require("@trycourier/courier");
+const courier = CourierClient({
+  authorizationToken: process.env.SENDGRID_API_KEY,
+});
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const sendWelcomeEmail = async (email, name) => {
+  const { requestId } = await courier.send({
+    message: {
+      to: {
+        email: email,
+      },
+      content: {
+        title: "Welcome!",
+        body: `Thanks for signing up, ${name}`,
+      },
+      data: {
+        name: name,
+      },
+      routing: {
+        method: "single",
+        channels: ["email"],
+      },
+    },
+  });
+};
 
-const sendWelcomeEmail = (email, name) => {
-    sgMail.send({
-        'to': email,
-        'from': 'ranulugeindrachapa@gmail.com',
-        'subject': 'Thanks for joining in!',
-        'text': `Welcome to the app, ${name}. Let me know how you get along with the app.`
-    })
-}
-
-const sendCancelEmail = (email, name) => {
-    sgMail.send({
-        'to': email,
-        'from': 'ranulugeindrachapa@gmail.com',
-        'subject': 'Sorry to see you go!',
-        'text': `Goodbye, ${name}. I hope to see you back sometime soon.`
-    })
-}
+const sendCancelEmail = async (email, name) => {
+  const { requestId } = await courier.send({
+    message: {
+      to: {
+        email: email,
+      },
+      content: {
+        title: "Sorry to see you go!",
+        body: `Goodbye, ${name}. I hope to see you back sometime soon.`,
+      },
+      data: {
+        name: name,
+      },
+      routing: {
+        method: "single",
+        channels: ["email"],
+      },
+    },
+  });
+};
 
 module.exports = {
-    sendWelcomeEmail,
-    sendCancelEmail
-}
-
- 
+  sendWelcomeEmail,
+  sendCancelEmail,
+};
