@@ -13,10 +13,10 @@ router.post("/users", async (req, res) => {
     await user.save();
     sendWelcomeEmail(user.email, user.name);
     const token = await user.generateAuthToken();
-    res.status(201).send({ user, token });
+    res.status(200).send({ user, token });
   } catch (e) {
     console.log(e);
-    res.status(400).send(e);
+    res.status(400).send({ error: e.message, message: "Please Try Again!" });
   }
 });
 
@@ -28,9 +28,9 @@ router.post("/users/login", async (req, res) => {
     );
     const token = await user.generateAuthToken();
 
-    res.send({ user, token });
+    res.status(200).send({ user, token });
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send({ error: e.message, message: "Invalid Credential!" });
   }
 });
 
@@ -40,9 +40,9 @@ router.post("/users/logout", auth, async (req, res) => {
       (token) => token.token !== req.token
     );
     await req.user.save();
-    res.send();
+    res.status(200).send({ message: "User logged out successfully." });
   } catch (e) {
-    res.status(500).send();
+    res.status(500).send({ error: e.message, message: "Please try again!." });
   }
 });
 
@@ -52,12 +52,12 @@ router.post("/users/logoutAll", auth, async (req, res) => {
     await req.user.save();
     res.send();
   } catch (e) {
-    res.status(500).send();
+    res.status(500).send({ error: e.message, message: "Please try again!." });
   }
 });
 
 router.get("/users/me", auth, async (req, res) => {
-  res.send(req.user);
+  res.status(200).send(req.user);
 });
 
 router.patch("/users/me", auth, async (req, res) => {
