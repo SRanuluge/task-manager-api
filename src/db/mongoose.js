@@ -1,9 +1,13 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 //connecting to db
-mongoose.connect(process.env.MONGODB_URL, {
+try {
+  mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
-})
+    useFindAndModify: false,
+  });
+} catch (error) {
+  throw new Error("Couldn't connect to Mongoose");
+}
