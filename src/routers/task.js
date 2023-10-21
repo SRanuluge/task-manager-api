@@ -74,9 +74,9 @@ router.patch("/tasks/:id", auth, async (req, res) => {
     }
     updates.forEach((update) => (task[update] = req.body[update]));
     await task.save();
-    res.send(task);
+    res.status(200).send({ message: "Task updated successfully.", task });
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send({ error: e.message, message: "Please Try Again!" });
   }
 });
 
@@ -85,9 +85,9 @@ router.delete("/tasks/:id", auth, async (req, res) => {
   try {
     const task = await Task.findByIdAndDelete({ _id, owner: req.user._id });
     if (!task) {
-      return res.status(404).send({ massage: "Task not found!" });
+      return res.status(404).send({ message: "Task not found!" });
     }
-    res.status(200).send({ task, me: "Task deleted successfully" });
+    res.status(200).send({ task: task, message: "Task deleted successfully" });
   } catch (e) {
     res.status(500).send({ error: e.message, message: "Please Try Again!" });
   }
