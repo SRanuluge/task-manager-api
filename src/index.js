@@ -7,11 +7,20 @@ require("./db/mongoose");
 const app = express();
 const port = process.env.PORT;
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+const whitelist = [
+  "http://localhost:5173",
+  "https://sranuluge.github.io/task-manager-front-end",
+];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+app.use(cors(corsOptions));
 //get req data (body json)
 app.use(express.json());
 
