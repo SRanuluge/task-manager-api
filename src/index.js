@@ -7,7 +7,7 @@ require("./db/mongoose");
 const app = express();
 const port = process.env.PORT;
 
-const whitelist = ["http://localhost:5173", "https://sranuluge.github.io"];
+// const whitelist = ["http://localhost:5173", "https://sranuluge.github.io"];
 // const corsOptions = {
 //   origin: function (origin, callback) {
 //     console.log("origin", origin);
@@ -20,7 +20,7 @@ const whitelist = ["http://localhost:5173", "https://sranuluge.github.io"];
 // };
 app.use(
   cors({
-    origin: whitelist,
+    origin: "*",
   })
 );
 //get req data (body json)
