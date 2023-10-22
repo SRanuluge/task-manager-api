@@ -7,10 +7,7 @@ require("./db/mongoose");
 const app = express();
 const port = process.env.PORT;
 
-const whitelist = [
-  "http://localhost:5173",
-  "https://sranuluge.github.io/task-manager-front-end",
-];
+const whitelist = ["http://localhost:5173", "https://sranuluge.github.io"];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
