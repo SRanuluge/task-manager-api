@@ -8,16 +8,21 @@ const app = express();
 const port = process.env.PORT;
 
 const whitelist = ["http://localhost:5173", "https://sranuluge.github.io"];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     console.log("origin", origin);
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+// };
+app.use(
+  cors({
+    origin: whitelist,
+  })
+);
 //get req data (body json)
 app.use(express.json());
 
