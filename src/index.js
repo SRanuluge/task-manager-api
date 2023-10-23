@@ -20,7 +20,8 @@ const port = process.env.PORT;
 // };
 app.use(
   cors({
-    origin: "*",
+    origin: ["https://sranuluge.github.io", "http://localhost:5173"],
+    methods: "GET,POST,HEAD,PUT,PATCH,DELETE",
   })
 );
 //get req data (body json)
