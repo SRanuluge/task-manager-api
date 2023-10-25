@@ -29,6 +29,6 @@ app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
 
-app.listen(port || 3000, () => {
+app.listen(port || 3000, "localhost", () => {
   console.log("Server is up on port " + port);
 });
